@@ -12,10 +12,12 @@ function addBookToLibrary(title,author,pages,read) {
   myLibrary.push(book);
 }
 
-function checker(checkbox) {
+function checker(e) {
+    let checkbox = e.target
     let parent = checkbox.parentElement.parentElement;
-    let title = parent.querySelector('the_title').innerHTML;
-    if(checkbox.checked) {
+    let title = parent.querySelector('.the-title').innerHTML;
+    console.log(checkbox.checked)
+    if(!checkbox.checked) {
         checkbox.checked = false;
         myLibrary.forEach(book => {
             if (book.title === title) {
@@ -23,7 +25,7 @@ function checker(checkbox) {
             };
         });
     }
-    else if (!checkbox.checked){
+    else if (checkbox.checked){
         checkbox.checked = true;
         myLibrary.forEach(book => {
             if (book.title === title) {
@@ -31,6 +33,7 @@ function checker(checkbox) {
             };
         });
     }
+    console.log(myLibrary)
 }
 
 function removeObject(array,conditionFn) {
