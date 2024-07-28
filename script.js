@@ -60,6 +60,8 @@ function resetEventListeners() {
     });
 }
 function updateLibraryUI() {
+    const librarySection = document.getElementById('library-section');
+    librarySection.innerHTML = ''
     myLibrary.forEach(book => {
         const card = `<div class="card">
                 <h3 class="the-title">Title: ${book.title}</h3>
@@ -70,18 +72,22 @@ function updateLibraryUI() {
                     <button class="delete-book">Delete Book</button>
                 </div>
             </div>`;
-            document.getElementById('library-section').innerHTML+= card;
+            librarySection.innerHTML+= card;
     })
 };
 
 document.getElementById('add-book-button').addEventListener('click', (e) =>{
     const form = e.target.parentElement;
-    const title = form.querySelector('#title').value;
-    const author = form.querySelector('#author').value;
-    const length = parseInt(form.querySelector('#length').value);
-    console.log(length)
-    const readStatus = form.querySelector('#read').checked ? true : false;
-    addBookToLibrary(title, author,length, readStatus);
+    const title = form.querySelector('#title');
+    const author = form.querySelector('#author');
+    const length = form.querySelector('#length');
+    const readField = form.querySelector('#read')
+    const readStatus = readField.checked ? true : false;
+    addBookToLibrary(title.value, author.value, parseInt(length.value), readStatus);
+    title.value = ''
+    author.value = ''
+    length.value = 0
+    readField.checked = false
     updateLibraryUI();
     resetEventListeners();
     console.log()

@@ -99,6 +99,8 @@ input[type="checkbox"]{
 }
 .library-section{
     width: 100%;
+    display: flex;
+    flex-wrap: wrap;
 }
 .card {
     margin: 1rem;
