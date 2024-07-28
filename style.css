@@ -81,7 +81,7 @@ input {
     border-radius: 3%;
     border: .5px solid lightgrey;
 }
-input[type="submit"]{
+input[type="button"]{
     background-color: orange;
     color: white;
     font-size: 2rem;

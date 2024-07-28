@@ -6,7 +6,7 @@ function Book(title,author,pages,read) {
   this.pages = pages;
   this.read = read;
 }
-myLibrary.push(new Book('JackRabbit','Alex',500,true));
+
 function addBookToLibrary(title,author,pages,read) {
   let book = new Book(title,author,pages,read);
   myLibrary.push(book);
@@ -33,7 +33,6 @@ function checker(e) {
             };
         });
     }
-    console.log(myLibrary)
 }
 
 function removeObject(array,conditionFn) {
@@ -61,19 +60,30 @@ function resetEventListeners() {
     });
 }
 function updateLibraryUI() {
-    const librarySection = document.getElementById('library-section');
     myLibrary.forEach(book => {
-        const card = `<div class="card book-${book.title}">
+        const card = `<div class="card">
                 <h3 class="the-title">Title: ${book.title}</h3>
                 <h3 class="the-author">Author: ${book.author}</h3>
                 <div class="bottom-container">
-                    <input class="read-checkbox-update toggle-read" type="checkbox">
-                    <span class="pages-read-container">Length: ${book.length}</span>   
-                    <span id="delete-book" class="delete-book-container"></span>
+                    <input class="read-checkbox-update toggleRead" type="checkbox" ${book.read ? "checked": ''}>
+                    <span class="pages-read-container">Length: ${book.pages}</span>   
+                    <button class="delete-book">Delete Book</button>
                 </div>
             </div>`;
-            librarySection.appendChild(card);
+            document.getElementById('library-section').innerHTML+= card;
     })
 };
-console.log(myLibrary)
-resetEventListeners();
+
+document.getElementById('add-book-button').addEventListener('click', (e) =>{
+    const form = e.target.parentElement;
+    const title = form.querySelector('#title').value;
+    const author = form.querySelector('#author').value;
+    const length = parseInt(form.querySelector('#length').value);
+    console.log(length)
+    const readStatus = form.querySelector('#read').checked ? true : false;
+    addBookToLibrary(title, author,length, readStatus);
+    updateLibraryUI();
+    resetEventListeners();
+    console.log()
+})
+
