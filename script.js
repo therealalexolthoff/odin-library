@@ -1,9 +1,20 @@
 class Library {
-    shelves = []
+    books = []
     addBookToLibrary(title,author,pages,read) {
         let book = new Book(title,author,pages,read);
-        this.shelves.push(book);
+        this.books.push(book);
       }
+    createCard(book){
+        return `<div class="card">
+                <h3 class="the-title">Title: ${book.title}</h3>
+                <h3 class="the-author">Author: ${book.author}</h3>
+                <div class="bottom-container">
+                    <input class="read-checkbox-update toggleRead" type="checkbox" ${book.read ? "checked": ''}>
+                    <span class="pages-read-container">Length: ${book.pages}</span>   
+                    <button class="delete-book">Delete Book</button>
+                </div>
+            </div>`;
+    }
 }
 class Book {
     constructor(title,author,pages,read) {
@@ -38,7 +49,7 @@ function checker(e) {
     let title = parent.querySelector('.the-title').innerHTML;
     if(!checkbox.checked) {
         checkbox.checked = false;
-        myLibrary.shelves.forEach(book => {
+        myLibrary.books.forEach(book => {
             if (book.title === title) {
                 book.read = false;
             };
@@ -46,7 +57,7 @@ function checker(e) {
     }
     else if (checkbox.checked){
         checkbox.checked = true;
-        myLibrary.shelves.forEach(book => {
+        myLibrary.books.forEach(book => {
             if (book.title === title) {
                 book.read = true;
             };
@@ -64,7 +75,7 @@ function removeObject(array,conditionFn) {
 function deleteBook(e) {
     const card = e.target.parentElement.parentElement;
     const title = card.querySelector('.the-title').innerHTML;
-    myLibrary.shelves.forEach(book => removeObject(myLibrary.shelves,book => book.title === title));
+    myLibrary.books.forEach(book => removeObject(myLibrary.books,book => book.title === title));
     card.remove();
 }
 
@@ -81,17 +92,8 @@ function resetEventListeners() {
 function updateLibraryUI() {
     const librarySection = document.getElementById('library-section');
     librarySection.innerHTML = ''
-    myLibrary.shelves.forEach(book => {
-        const card = `<div class="card">
-                <h3 class="the-title">Title: ${book.title}</h3>
-                <h3 class="the-author">Author: ${book.author}</h3>
-                <div class="bottom-container">
-                    <input class="read-checkbox-update toggleRead" type="checkbox" ${book.read ? "checked": ''}>
-                    <span class="pages-read-container">Length: ${book.pages}</span>   
-                    <button class="delete-book">Delete Book</button>
-                </div>
-            </div>`;
-            librarySection.innerHTML+= card;
+    myLibrary.books.forEach(book => {
+        librarySection.innerHTML+= myLibrary.createCard(book);
     })
 };
 
