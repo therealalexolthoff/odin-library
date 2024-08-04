@@ -1,30 +1,44 @@
-
-
+class Library {
+    shelves = []
+    addBookToLibrary(title,author,pages,read) {
+        let book = new Book(title,author,pages,read);
+        this.shelves.push(book);
+      }
+}
+class Book {
+    constructor(title,author,pages,read) {
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.read = read; 
+    }
+}
 
 
 // Old implementation
-const myLibrary = [];
+// const myLibrary = [];
 
-function Book(title,author,pages,read) {
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.read = read;
-}
+// function Book(title,author,pages,read) {
+//   this.title = title;
+//   this.author = author;
+//   this.pages = pages;
+//   this.read = read;
+// }
 
-function addBookToLibrary(title,author,pages,read) {
-  let book = new Book(title,author,pages,read);
-  myLibrary.push(book);
-}
+// function addBookToLibrary(title,author,pages,read) {
+//   let book = new Book(title,author,pages,read);
+//   myLibrary.push(book);
+// }
+
+const myLibrary = new Library()
 
 function checker(e) {
     let checkbox = e.target
     let parent = checkbox.parentElement.parentElement;
     let title = parent.querySelector('.the-title').innerHTML;
-    console.log(checkbox.checked)
     if(!checkbox.checked) {
         checkbox.checked = false;
-        myLibrary.forEach(book => {
+        myLibrary.shelves.forEach(book => {
             if (book.title === title) {
                 book.read = false;
             };
@@ -32,7 +46,7 @@ function checker(e) {
     }
     else if (checkbox.checked){
         checkbox.checked = true;
-        myLibrary.forEach(book => {
+        myLibrary.shelves.forEach(book => {
             if (book.title === title) {
                 book.read = true;
             };
@@ -50,7 +64,7 @@ function removeObject(array,conditionFn) {
 function deleteBook(e) {
     const card = e.target.parentElement.parentElement;
     const title = card.querySelector('.the-title').innerHTML;
-    myLibrary.forEach(book => removeObject(myLibrary,book => book.title === title));
+    myLibrary.shelves.forEach(book => removeObject(myLibrary.shelves,book => book.title === title));
     card.remove();
 }
 
@@ -67,7 +81,7 @@ function resetEventListeners() {
 function updateLibraryUI() {
     const librarySection = document.getElementById('library-section');
     librarySection.innerHTML = ''
-    myLibrary.forEach(book => {
+    myLibrary.shelves.forEach(book => {
         const card = `<div class="card">
                 <h3 class="the-title">Title: ${book.title}</h3>
                 <h3 class="the-author">Author: ${book.author}</h3>
@@ -86,15 +100,14 @@ document.getElementById('add-book-button').addEventListener('click', (e) =>{
     const title = form.querySelector('#title');
     const author = form.querySelector('#author');
     const length = form.querySelector('#length');
-    const readField = form.querySelector('#read')
+    const readField = form.querySelector('#read');
     const readStatus = readField.checked ? true : false;
-    addBookToLibrary(title.value, author.value, parseInt(length.value), readStatus);
+    myLibrary.addBookToLibrary(title.value, author.value, parseInt(length.value), readStatus);
     title.value = ''
     author.value = ''
     length.value = 0
     readField.checked = false
     updateLibraryUI();
     resetEventListeners();
-    console.log()
 })
 
