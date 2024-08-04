@@ -4,9 +4,16 @@ class Library {
         let book = new Book(title,author,pages,read);
         this.books.push(book);
       }
+    changeBookReadStatus(title){
+        this.books.forEach(book => {
+            if (book.compareBookTitle(title)) {
+                book.changeReadStatus();
+            };
+        })
+    }
     createCard(book){
         return `<div class="card">
-                <h3 class="the-title">Title: ${book.title}</h3>
+                <h3 class="the-title">Title: <span>${book.title}</span></h3>
                 <h3 class="the-author">Author: ${book.author}</h3>
                 <div class="bottom-container">
                     <input class="read-checkbox-update toggleRead" type="checkbox" ${book.read ? "checked": ''}>
@@ -22,6 +29,13 @@ class Book {
         this.author = author;
         this.pages = pages;
         this.read = read; 
+    }
+    compareBookTitle(title){
+        console.log(this.title === title)
+        return this.title === title;
+    }
+    changeReadStatus(){
+        this.read = !this.read;
     }
 }
 
@@ -46,23 +60,8 @@ const myLibrary = new Library()
 function checker(e) {
     let checkbox = e.target
     let parent = checkbox.parentElement.parentElement;
-    let title = parent.querySelector('.the-title').innerHTML;
-    if(!checkbox.checked) {
-        checkbox.checked = false;
-        myLibrary.books.forEach(book => {
-            if (book.title === title) {
-                book.read = false;
-            };
-        });
-    }
-    else if (checkbox.checked){
-        checkbox.checked = true;
-        myLibrary.books.forEach(book => {
-            if (book.title === title) {
-                book.read = true;
-            };
-        });
-    }
+    let title = parent.querySelector('.the-title').children[0].innerHTML;
+    myLibrary.changeBookReadStatus(title);
 }
 
 function removeObject(array,conditionFn) {
