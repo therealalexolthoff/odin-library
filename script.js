@@ -3,12 +3,26 @@ class Library {
     addBookToLibrary(title,author,pages,read) {
         let book = new Book(title,author,pages,read);
         this.books.push(book);
-      }
+    }
     changeBookReadStatus(title){
         this.books.forEach(book => {
             if (book.compareBookTitle(title)) {
                 book.changeReadStatus();
             };
+        })
+    }
+    removeBook(callbackFn) {
+        let index = this.books.findIndex(callbackFn);
+        if (index !== -1) {
+            array.splice(index, 1);
+        }
+    }
+    improvedRemoveBook(title){
+        myLibrary.books.forEach(book => {
+        let index = this.books.findIndex(book => book.compareBookTitle(title));
+            if (index !== -1) {
+            array.splice(index, 1);
+            }
         })
     }
     createCard(book){
@@ -31,7 +45,6 @@ class Book {
         this.read = read; 
     }
     compareBookTitle(title){
-        console.log(this.title === title)
         return this.title === title;
     }
     changeReadStatus(){
@@ -64,17 +77,11 @@ function checker(e) {
     myLibrary.changeBookReadStatus(title);
 }
 
-function removeObject(array,conditionFn) {
-        let index = array.findIndex(conditionFn);
-        if (index !== -1) {
-            array.splice(index, 1);
-        }
-}
-
 function deleteBook(e) {
     const card = e.target.parentElement.parentElement;
     const title = card.querySelector('.the-title').innerHTML;
-    myLibrary.books.forEach(book => removeObject(myLibrary.books,book => book.title === title));
+    // myLibrary.books.forEach(book => myLibrary.removeBook(book => book.compareBookTitle(title)));
+    myLibrary.improvedRemoveBook(title)
     card.remove();
 }
 
